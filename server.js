@@ -118,7 +118,7 @@ server.post('/login', (req, res) => {
         });
         gitClone.on('close', (code) => {
             console.log(`Git clone exited with code ${code}`);
-            fs.writeFile(gitHubFolderName+'/codebox.config.json', '{ "template": "node" }', 'utf8', (error)=> { 
+            fs.writeFile(gitHubFolderName+'/sandbox.config.json', '{ "template": "node" }', 'utf8', (error)=> { 
                 if (error) throw err;
                 let sandBoxUrl;
                 const codeBoxCli = spawn('./codesandbox', [`../../${gitHubFolderName}`, '-y'], {cwd: "node_modules/.bin"});
@@ -137,7 +137,7 @@ server.post('/login', (req, res) => {
                     });
                     codeBoxCli.on('close', (code) => {
                         console.log(`codesandbox exited with code ${code}`);
-                        rimraf(g itHubFolderName, () =>  console.log("Github folder deleted"));
+                        rimraf(gitHubFolderName, () =>  console.log("Github folder deleted"));
                         res.send(`<iframe src="https://codesandbox.io/embed/${sandBoxUrl}?autoresize=1&fontsize=14&hidenavigation=1" title="${'testing'}" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>`)
                     });
             });
