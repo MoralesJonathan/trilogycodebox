@@ -121,19 +121,23 @@ server.post('/login', (req, res) => {
             fs.writeFile(gitHubFolderName+'/codebox.config.json', '{ "template": "node" }', 'utf8', (error)=> { 
                 if (error) throw err;
                 let sandBoxUrl;
-                const codeBoxCli = spawn('./codesandbox ', ['./', '-y'], {cwd: "node_modules/.bin"});
+                const codeBoxCli = spawn('./codesandbox', [`../../${gitHubFolderName}`, '-y'], {cwd: "node_modules/.bin"});
                 codeBoxCli.stdout.on('data', (data) => {
                         console.log(`stdout: ${data}`);
                         const dataString = data.toString('utf8')
-                        sandBoxUrl = (/https:\/\/codesandbox.io\/s\/(\w+)/g).exec(dataString); //idk if this regex is correct
-                        sandBoxUrl = sandBoxUrl[1]; 
+                        sandBoxUrl = (/https:\/\/codesandbox.io\/s\/(\w+)/g).exec(dataString);
+                        sandBoxUrl = sandBoxUrl != null? sandBoxUrl[1]: null;
+                        if(dataString.includes("Are you sure you want to proceed with the deployment?")){
+                            codeBoxCli.stdin.setEncoding('utf-8');
+                            codeBoxCli.stdin.write("y\n");
+                        }
                     });
                     codeBoxCli.stderr.on('data', (data) => {
                         console.log(`stderr: ${data}`);
                     });
                     codeBoxCli.on('close', (code) => {
                         console.log(`codesandbox exited with code ${code}`);
-                        rimraf(gitHubFolderName, () =>  console.log("Github folder deleted"));
+                        rimraf(g itHubFolderName, () =>  console.log("Github folder deleted"));
                         res.send(`<iframe src="https://codesandbox.io/embed/${sandBoxUrl}?autoresize=1&fontsize=14&hidenavigation=1" title="${'testing'}" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>`)
                     });
             });
