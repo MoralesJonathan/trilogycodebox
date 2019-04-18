@@ -1,0 +1,25 @@
+{
+  "name": "trilogycodebox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonmorazav/trilogycodebox.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonmorazav/trilogycodebox/issues"
+  },
+  "homepage": "https://github.com/jonmorazav/trilogycodebox#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "codesandbox": "^2.1.4",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "rimraf": "^2.6.3"
+  }
+}
